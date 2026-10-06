@@ -1,0 +1,14 @@
+
+# Arquivos gerados pelo ROS 2
+build/
+install/
+log/
+
+# Cache do Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Ambientes virtuais
+.venv/
+venv/
