@@ -24,13 +24,13 @@ Abra outro terminal Ubuntu:
 ```bash
 source /opt/ros/humble/setup.bash
 source ~/ros2_ws/install/setup.bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p speed:=0.15 -p turn:=0.5 -p repeat_rate:=10.0 -p key_timeout:=0.6
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p speed:=0.15 -p turn:=0.5
 ```
 
 Mantenha o foco nesse terminal. Teclas: `i` avança, `,` recua, `j` gira à
 esquerda, `l` gira à direita e `k` para. Ctrl+C encerra a teleoperação.
-O timeout envia parada quando não há novas teclas por 0,6 segundo; para
-continuar movendo, mantenha a tecla pressionada. Comece com baixa velocidade.
+Nesta versão do teleop_twist_keyboard, o último comando continua ativo até
+a próxima tecla: use `k` para parar. Comece com baixa velocidade.
 
 ## Modelo físico
 
