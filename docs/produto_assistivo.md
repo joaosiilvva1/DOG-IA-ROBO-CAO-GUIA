@@ -61,7 +61,10 @@ e publica em `/cmd_vel_safe`, a entrada do motor no launch oficial.
 
 ## Acessibilidade e comunicação
 
-- Controles com altura mínima de 56 px, texto claro e foco visível.
+- Controles com altura mínima de 72 px, texto claro e foco visível.
+- Primeiro botão permite ouvir o estado sem ativar todos os avisos.
+- Letras ampliadas e contraste reforçado com preferência salva no navegador.
+- Parada aparece antes de pausa/retomada; todos os controles funcionam por teclado.
 - Layout responsivo e interface inteiramente em português.
 - Estado explicado em texto; cores são auxiliares.
 - Regiões de anúncio para leitores de tela e avisos urgentes separados.
@@ -73,6 +76,37 @@ e publica em `/cmd_vel_safe`, a entrada do motor no launch oficial.
 As vozes do navegador podem depender do sistema e da rede. Ainda falta testar
 com pessoas com deficiência visual, TalkBack/VoiceOver e aparelhos reais.
 Botões grandes e marcação semântica não comprovam acessibilidade completa.
+
+## Rota a pé e integração com mapas
+
+Implementado: formulário de destino e link oficial para Google Maps em modo
+`walking`. O destino só é enviado ao Google quando a pessoa abre o link.
+A digitação pode usar a ditagem do teclado do telefone. Não há captura de
+microfone no protótipo. Abrir o Maps não faz o robô seguir a rota.
+
+Para seguir uma rota: serviço de rotas a pé → coordenadas e instruções →
+localização do robô (GNSS/IMU e sensores locais) → referência de mapa local →
+planejador Nav2 → supervisor existente → motores. GPS isolado não comprova
+alinhamento com calçada/faixa; rota a pé não garante acessibilidade do percurso.
+A ligação com o telefone precisa permanecer ativa quando o Maps está aberto.
+
+Waze Deep Links abrem navegação externa, mas não fornecem a trajetória de volta
+ao supervisor. Priorizar rotas de pedestres do Google para esta finalidade.
+A API de rotas oferece instruções/geometria, não cor atual do sinal de pedestres.
+Não inferir vermelho/verde a partir de trânsito, mapa ou tempo de viagem.
+
+Prioridade definida pelo usuário: acessibilidade → rota → semáforo → buracos.
+Próxima entrega de robótica: travessia simulada com sinal de pedestres,
+identificação do sinal pertinente por câmera, parada antes da faixa e alertas.
+Vermelho: bloquear aproximação à travessia e avisar. Leitura ausente, antiga,
+ocluída ou ambígua: manter bloqueio e avisar que o sinal não foi identificado.
+Verde reconhecido: informar estado observado, sem retomar nem autorizar travessia
+automaticamente. Toda a área de travessia requer avaliação própria.
+
+Referências oficiais consultadas em 06/10/2026:
+- https://developers.google.com/maps/documentation/urls/get-started
+- https://developers.google.com/maps/documentation/routes/reference/rest/v2/TopLevel/computeRoutes
+- https://developers.google.com/waze/deeplinks
 
 ## Semáforos de pedestres
 
