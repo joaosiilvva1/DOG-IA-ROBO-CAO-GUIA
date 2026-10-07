@@ -13,7 +13,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         *[('share/' + package_name + '/' + folder, [path for path in glob(folder + '/*') if isfile(path)])
-          for folder in ('launch', 'urdf', 'worlds', 'rviz', 'scripts', 'web')],
+          for folder in ('launch', 'urdf', 'worlds', 'rviz', 'scripts', 'web', 'config')],
     ],
     install_requires=['setuptools'],
     zip_safe=True,

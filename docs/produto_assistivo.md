@@ -13,6 +13,7 @@ transmitir vídeo a um serviço externo para emitir alertas básicos.
 ## O que está implementado
 
 - Modelo com rodas, LiDAR, RGB-D, odometria e TF.
+- SLAM Toolbox e Nav2 integrados; primeira meta autônoma validada no Gazebo.
 - Supervisor entre comandos de velocidade e motor simulado.
 - Watchdog independente: envia zero se o supervisor deixa de atualizar por 0,25 segundo.
 - Limites de 0,20 m/s e 0,50 rad/s nesta configuração de teste.
@@ -28,7 +29,7 @@ transmitir vídeo a um serviço externo para emitir alertas básicos.
 - Interface identifica falta de conexão e funções ainda indisponíveis.
 
 Não estão implementados: percepção de semáforo, buracos, obstáculos suspensos,
-planejamento de rota, ligação protegida com um celular físico e vibração nativa.
+rota urbana externa, ligação protegida com um celular físico e vibração nativa.
 Os sensores publicam dados, mas isso não equivale a detectar esses riscos.
 
 ## Abrir a interface

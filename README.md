@@ -32,7 +32,10 @@ source install/setup.bash
 ros2 launch dog_ia simulacao.launch.py
 ```
 
-Navegação autônoma e percepção assistiva serão desenvolvidas nas próximas etapas.
+SLAM Toolbox e Nav2 estão integrados, com primeira meta autônoma validada.
+Veja [como iniciar a navegação](docs/navegacao.md) e a
+[conferência dos requisitos da Aula 06](docs/conformidade_aula06.md).
+Percepção assistiva e missão urbana completa permanecem em desenvolvimento.
 
 
 ## Aplicativo conectado e supervisão — versão 0.1.0
