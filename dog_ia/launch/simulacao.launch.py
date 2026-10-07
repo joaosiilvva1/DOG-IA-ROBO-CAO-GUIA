@@ -19,6 +19,8 @@ def generate_launch_description():
         DeclareLaunchArgument('gui', default_value='true'),
         DeclareLaunchArgument('rviz', default_value='true'),
         DeclareLaunchArgument('app', default_value='true'),
+        DeclareLaunchArgument('require_signal', default_value='false'),
+        DeclareLaunchArgument('require_terrain', default_value='false'),
         DeclareLaunchArgument('world', default_value=str(share / 'worlds/teste.world')),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(gazebo_share / 'launch/gazebo.launch.py')),
@@ -26,7 +28,7 @@ def generate_launch_description():
                               'gui': LaunchConfiguration('gui')}.items()),
         Node(package='dog_ia', executable='watchdog', output='screen'),
         Node(package='dog_ia', executable='supervisor',
-             parameters=[{'use_sim_time': True}], output='screen'),
+             parameters=[{'use_sim_time': True, 'require_signal': LaunchConfiguration('require_signal'), 'require_terrain': LaunchConfiguration('require_terrain')}], output='screen'),
         Node(package='dog_ia', executable='aplicativo',
              condition=IfCondition(LaunchConfiguration('app')), output='screen'),
         Node(package='robot_state_publisher', executable='robot_state_publisher',

@@ -48,5 +48,7 @@ O supervisor limita velocidades, bloqueia obstáculos próximos no plano do
 LiDAR e para quando comandos ou sensores ficam desatualizados.
 
 [Direção do produto, testes, acessibilidade e limitações](docs/produto_assistivo.md).
-Semáforos, buracos e obstáculos suspensos ainda não possuem detectores ativos.
+Detectores iniciais de semáforo, desníveis e obstáculos suspensos estão disponíveis
+em cenários controlados separados, com bloqueio e nó Python de voz.
+[Iniciar e testar percepção](docs/percepcao.md). A missão final integrada permanece pendente.
 Esta é uma versão de pesquisa em simulação; não validada para guiamento na rua.

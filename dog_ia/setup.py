@@ -28,6 +28,9 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'terreno = dog_ia.terrain_node:main',
+            'semaforo = dog_ia.signal_node:main',
+            'audio = dog_ia.audio_node:main',
             'watchdog = dog_ia.actuator_watchdog:main',
             'supervisor = dog_ia.safety_node:main',
             'aplicativo = dog_ia.app_server:main',

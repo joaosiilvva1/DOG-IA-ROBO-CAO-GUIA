@@ -53,8 +53,12 @@ class AppNode(Node):
             return {'connected': connected, 'robot': robot,
                 'sensors': {key: now-self.sensor_times.get(key, -100) < 1.2
                             for key in ('rgb', 'depth', 'points')},
-                'traffic_light': {'available': False, 'message': 'Detector ainda não implementado'},
-                'ground_hazards': {'available': False, 'message': 'Detector ainda não implementado'},
+                'traffic_light': {'available': connected and robot.get('signal_required', False) and robot.get('signal_ok', False),
+                                  'state': robot.get('signal_state', 'unknown'),
+                                  'message': 'Detector de cenário controlado' if robot.get('signal_required') else 'Detector não ativo neste cenário'},
+                'ground_hazards': {'available': connected and robot.get('terrain_required', False),
+                                   'state': robot.get('terrain_state', 'terrain_unknown'),
+                                   'message': 'Detector de cenário controlado' if robot.get('terrain_required') else 'Detector não ativo neste cenário'},
                 'mode': 'simulation'}
 
     def control(self, action):

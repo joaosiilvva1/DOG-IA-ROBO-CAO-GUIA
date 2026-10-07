@@ -28,9 +28,10 @@ transmitir vídeo a um serviço externo para emitir alertas básicos.
 - Interface acessível local, conectada aos dados do ROS, com avisos por voz.
 - Interface identifica falta de conexão e funções ainda indisponíveis.
 
-Não estão implementados: percepção de semáforo, buracos, obstáculos suspensos,
-rota urbana externa, ligação protegida com um celular físico e vibração nativa.
-Os sensores publicam dados, mas isso não equivale a detectar esses riscos.
+Percepção inicial de semáforo, desníveis e obstáculos suspensos e nó Python de
+voz estão implementados em cenários controlados; veja [percepção](percepcao.md).
+Não estão implementados: missão urbana completa, percepção validada em ruas,
+ligação protegida com celular físico, destino por voz e vibração nativa.
 
 ## Abrir a interface
 
@@ -136,8 +137,8 @@ Buraco é uma quebra no piso esperado; não é simplesmente ausência de pontos.
 Usar profundidade, calibração, geometria do chão, persistência temporal e região
 de passagem. Descartar leituras inválidas sem classificá-las como piso livre.
 
-A câmera atual está orientada para cima; a solução de produto deve incluir
-uma câmera/sensor dedicado ao chão ou reposicionamento validado de sensores.
+A câmera superior permanece orientada para cima; foi acrescentada uma câmera
+RGB-D dedicada ao chão, inicialmente validada em cenário controlado.
 A escolha não deve sacrificar a detecção de riscos na altura do usuário.
 
 Classes iniciais: piso contínuo, degrau, possível buraco, chão não observável.

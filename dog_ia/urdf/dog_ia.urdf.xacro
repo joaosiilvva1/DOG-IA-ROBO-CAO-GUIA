@@ -85,6 +85,27 @@
       </plugin>
     </sensor>
   </gazebo>
+  <link name="ground_camera_link"><visual><geometry><box size="0.05 0.08 0.04"/></geometry><material name="black"/></visual><xacro:box_inertia m="0.1" x="0.05" y="0.08" z="0.04"/></link>
+  <joint name="ground_camera_joint" type="fixed"><parent link="base_link"/><child link="ground_camera_link"/><origin xyz="0.23 0 0.2" rpy="0 0.55 0"/></joint>
+  <link name="ground_optical_frame"/>
+  <joint name="ground_optical_joint" type="fixed"><parent link="ground_camera_link"/><child link="ground_optical_frame"/><origin rpy="${-pi/2} 0 ${-pi/2}"/></joint>
+  <gazebo reference="ground_camera_link">
+    <sensor name="ground_rgbd_camera" type="depth">
+      <always_on>true</always_on><update_rate>10</update_rate>
+      <camera><horizontal_fov>1.2</horizontal_fov><image><width>320</width><height>240</height><format>R8G8B8</format></image><clip><near>0.1</near><far>8</far></clip></camera>
+      <plugin name="ground_camera_ros" filename="libgazebo_ros_camera.so">
+        <ros><namespace>/ground</namespace>
+          <remapping>rgbd/image_raw:=/ground/image_raw</remapping>
+          <remapping>rgbd/ground_info:=/ground/ground_info</remapping>
+          <remapping>rgbd/depth/image_raw:=/ground/depth/image_raw</remapping>
+          <remapping>rgbd/depth/ground_info:=/ground/depth/ground_info</remapping>
+          <remapping>rgbd/points:=/ground/points</remapping>
+        </ros>
+        <camera_name>rgbd</camera_name><frame_name>ground_optical_frame</frame_name>
+        <min_depth>0.1</min_depth><max_depth>8.0</max_depth>
+      </plugin>
+    </sensor>
+  </gazebo>
   <gazebo>
     <plugin name="drive" filename="libgazebo_ros_diff_drive.so">
       <ros><remapping>cmd_vel:=/cmd_vel_safe</remapping></ros>
