@@ -18,11 +18,17 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('gui', default_value='true'),
         DeclareLaunchArgument('rviz', default_value='true'),
+        DeclareLaunchArgument('app', default_value='true'),
         DeclareLaunchArgument('world', default_value=str(share / 'worlds/teste.world')),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(gazebo_share / 'launch/gazebo.launch.py')),
             launch_arguments={'world': LaunchConfiguration('world'),
                               'gui': LaunchConfiguration('gui')}.items()),
+        Node(package='dog_ia', executable='watchdog', output='screen'),
+        Node(package='dog_ia', executable='supervisor',
+             parameters=[{'use_sim_time': True}], output='screen'),
+        Node(package='dog_ia', executable='aplicativo',
+             condition=IfCondition(LaunchConfiguration('app')), output='screen'),
         Node(package='robot_state_publisher', executable='robot_state_publisher',
              parameters=[{'robot_description': description, 'use_sim_time': True}],
              output='screen'),

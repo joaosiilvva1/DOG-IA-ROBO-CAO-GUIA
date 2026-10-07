@@ -12,7 +12,9 @@ source install/setup.bash
 ros2 launch dog_ia simulacao.launch.py
 ```
 
-O comando abre Gazebo Classic, cria o robô no cenário de teste e abre RViz2.
+O comando abre Gazebo Classic, cria o robô no cenário de teste, abre RViz2
+e inicia o aplicativo em http://localhost:8765.
+Consulte [produto assistivo e limites](produto_assistivo.md).
 Para encerrar, use Ctrl+C no terminal que iniciou a simulação.
 Para executar sem as janelas: acrescente `gui:=false rviz:=false`.
 A câmera de profundidade ainda exige um ambiente gráfico disponível.
@@ -24,13 +26,13 @@ Abra outro terminal Ubuntu:
 ```bash
 source /opt/ros/humble/setup.bash
 source ~/ros2_ws/install/setup.bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p speed:=0.15 -p turn:=0.5
+ros2 run dog_ia teclado
 ```
 
 Mantenha o foco nesse terminal. Teclas: `i` avança, `,` recua, `j` gira à
 esquerda, `l` gira à direita e `k` para. Ctrl+C encerra a teleoperação.
-Nesta versão do teleop_twist_keyboard, o último comando continua ativo até
-a próxima tecla: use `k` para parar. Comece com baixa velocidade.
+O teclado próprio envia comandos continuamente e para após 0,5 segundo sem
+novas teclas. O supervisor também bloqueia comandos vencidos e obstáculos próximos.
 
 ## Modelo físico
 
@@ -40,7 +42,9 @@ a próxima tecla: use `k` para parar. Comece com baixa velocidade.
 - LiDAR 2D a aproximadamente 0,34 m do chão, 360 amostras e 10 Hz.
 - Câmera RGB-D a aproximadamente 0,675 m do chão, inclinada 11,5 graus
   para cima, resolução 320 x 240 e 10 Hz.
-- Massas, inércias e colisões definidos; controle diferencial no Gazebo.
+- Massas, inércias e colisões principais definidos; controle diferencial no Gazebo.
+- O suporte da câmera é visual, sem colisão nesta simulação simplificada,
+  para não ocluir o LiDAR; essa simplificação requer revisão no hardware.
 
 O campo de visão foi escolhido para os primeiros testes. A posição da câmera
 precisa ser reavaliada ao implementar buracos e proteção da altura do usuário.
@@ -60,7 +64,10 @@ A placa suspensa é um objeto estático de teste, sem suporte modelado.
 
 | Tópico | Tipo | Uso |
 |---|---|---|
-| `/cmd_vel` | geometry_msgs/Twist | Comando de velocidade |
+| `/cmd_vel` | geometry_msgs/Twist | Comando solicitado, entrada do supervisor |
+| `/cmd_vel_supervised` | geometry_msgs/Twist | Comando do supervisor para o watchdog |
+| `/cmd_vel_safe` | geometry_msgs/Twist | Saída do watchdog, entrada do motor |
+| `/dog_ia/status` | std_msgs/String | Estado do supervisor em JSON |
 | `/odom` | nav_msgs/Odometry | Odometria das rodas |
 | `/joint_states` | sensor_msgs/JointState | Posição das rodas |
 | `/scan` | sensor_msgs/LaserScan | LiDAR |
@@ -80,7 +87,10 @@ substituto dos sensores em algoritmos futuros de navegação/percepção.
 
 ```mermaid
 flowchart LR
-  T[Teleoperação] -->|/cmd_vel| D[Plugin de tração diferencial]
+  T[Teleoperação] -->|/cmd_vel| G[Supervisor de movimento]
+  G -->|/cmd_vel_supervised| W[Watchdog independente]
+  W -->|/cmd_vel_safe| D[Plugin de tração diferencial]
+  G -->|/dog_ia/status| A[Aplicativo acessível]
   D -->|/odom e odom → base_footprint| R[RViz2]
   J[Plugin de estados das rodas] -->|/joint_states| P[robot_state_publisher]
   X[Xacro / URDF] -->|robot_description| P

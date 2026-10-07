@@ -1,4 +1,4 @@
-# README
+# DOG-IA — Robô cão-guia assistivo
 
 João Vitor da Silva Batista
 RA: 97021
@@ -33,3 +33,17 @@ ros2 launch dog_ia simulacao.launch.py
 ```
 
 Navegação autônoma e percepção assistiva serão desenvolvidas nas próximas etapas.
+
+
+## Aplicativo conectado e supervisão — versão 0.1.0
+
+Interface acessível com dados da simulação, avisos por voz, pausa e emergência.
+Abra http://localhost:8765 depois de iniciar o launch. Para movimentar,
+use `ros2 run dog_ia teclado` em outro terminal com o workspace carregado.
+
+O supervisor limita velocidades, bloqueia obstáculos próximos no plano do
+LiDAR e para quando comandos ou sensores ficam desatualizados.
+
+[Direção do produto, testes, acessibilidade e limitações](docs/produto_assistivo.md).
+Semáforos, buracos e obstáculos suspensos ainda não possuem detectores ativos.
+Esta é uma versão de pesquisa em simulação; não validada para guiamento na rua.

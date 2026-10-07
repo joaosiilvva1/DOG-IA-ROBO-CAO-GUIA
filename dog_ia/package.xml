@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <package format="3">
   <name>dog_ia</name>
-  <version>0.0.0</version>
+  <version>0.1.0</version>
   <description>Simulated assistive mobile robot with differential drive, LiDAR and RGB-D</description>
-  <maintainer email="najoao@todo.todo">najoao</maintainer>
+  <maintainer email="Developer.joaosilva@gmail.com">João Vitor da Silva Batista</maintainer>
   <license>Apache-2.0</license>
   <depend>rclpy</depend>
   <test_depend>ament_copyright</test_depend>
@@ -27,4 +27,6 @@
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>rviz2</exec_depend>
   <exec_depend>teleop_twist_keyboard</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
 </package>
